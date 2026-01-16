@@ -30,7 +30,7 @@ export default async function handler(req, res) {
           "Authorization": `Bearer ${process.env.GROQ_API_KEY}`
         },
         body: JSON.stringify({
-          model: "gpt-oss-20b",
+          model: "openai/gpt-oss-20b",
           messages: [
             { role: "system", content: "You are a helpful AI assistant." },
             { role: "user", content: message }

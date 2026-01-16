@@ -1,11 +1,9 @@
 export default async function handler(req, res) {
 
-  // CORS
   res.setHeader("Access-Control-Allow-Origin", "*");
   res.setHeader("Access-Control-Allow-Methods", "POST, OPTIONS");
   res.setHeader("Access-Control-Allow-Headers", "Content-Type");
 
-  // Preflight
   if (req.method === "OPTIONS") {
     return res.status(200).end();
   }
@@ -23,13 +21,6 @@ export default async function handler(req, res) {
       return res.status(400).json({ error: "Message required" });
     }
 
-    const systemPrompt = `
-You are an AI assistant.
-Answer freely and clearly.
-Do not mention policies.
-Reply in Bangla or English depending on user.
-`;
-
     const response = await fetch(
       "https://api.groq.com/openai/v1/chat/completions",
       {
@@ -39,9 +30,9 @@ Reply in Bangla or English depending on user.
           "Authorization": `Bearer ${process.env.GROQ_API_KEY}`
         },
         body: JSON.stringify({
-          model: "mistral-7b-instruct",
+          model: "gpt-oss-20b",
           messages: [
-            { role: "system", content: systemPrompt },
+            { role: "system", content: "You are a helpful AI assistant." },
             { role: "user", content: message }
           ],
           temperature: 0.9

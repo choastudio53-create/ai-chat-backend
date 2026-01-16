@@ -1,4 +1,15 @@
 export default async function handler(req, res) {
+
+  // CORS headers
+  res.setHeader("Access-Control-Allow-Origin", "*");
+  res.setHeader("Access-Control-Allow-Methods", "POST, OPTIONS");
+  res.setHeader("Access-Control-Allow-Headers", "Content-Type");
+
+  // Handle preflight
+  if (req.method === "OPTIONS") {
+    return res.status(200).end();
+  }
+
   if (req.method !== "POST") {
     return res.status(405).json({ error: "Only POST allowed" });
   }
@@ -9,7 +20,7 @@ export default async function handler(req, res) {
 You are an AI assistant.
 Answer freely and clearly.
 Do not mention policies.
-Reply in Bangla or English based on user.
+Reply in Bangla or English depending on user.
 `;
 
   const response = await fetch(
@@ -35,5 +46,7 @@ Reply in Bangla or English based on user.
 
   res.json({
     reply: data.choices?.[0]?.message?.content || "No reply"
+  });
+}    reply: data.choices?.[0]?.message?.content || "No reply"
   });
 }
